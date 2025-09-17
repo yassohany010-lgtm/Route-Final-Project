@@ -1,183 +1,72 @@
 #include <iostream>
-#ifndef VALIDATION_H
-#define VALIDATION_H
-#include <iostream>
-#include <string>
+#include "FileManager.h"
+#include "Validation.h"
 using namespace std;
 
+int main() {
+    FileManager fm;
 
-class validation
-{
-    public:
-    static bool validname(string name){
-       if(name.length()<5||name.length()>20){
-    for(int i=0;i<name.length();i++){
-        if(!isalpha(name[i]))
-           return false;
-    }
-       }
-    return true;
-    }
-    static bool validpassword(string password){
-    if(password.length()<8||password.length()>20)
-    {return false;}
-    return true;
-    }
-    static bool validbalance(double balance){
-    if(balance <1500){
-        return false;
-    }
-    return true;
-    }
-    static bool valdisalary(double salary){
-    if (salary<5000){
-        return false;
-    }
-    return true;
-    }
-};
+    cout << "===== Banking System  =====\n";
 
-class Person{
-    int id;
-    string name;
-    string password;
+    string cname, cpass;
+    double cbalance;
 
-public:
-    //const
-    Person(){
-        this->id=0;
+    cout << "Enter client name: ";
+    getline(cin, cname);
+    while (!Validation::validName(cname)) {
+        cout << "Invalid name! Try again: ";
+        getline(cin, cname);
     }
 
-    Person(int id,string name,string password){
-        set_id(id);
-        set_name(name);
-        set_password(password);
-    }
-    //setter
-    void set_id(int id){
-          this->id=id;
-    }
-     void set_name(string name){
-        if (validation::validname(name))
-           this->name=name;
-           else cout << "uncorrect name/n";
-    }
-      void set_password(string password){
-       if (validation::validpassword(password))
-           this->password=password;
-           else cout << "uncorrect password/n";
-    }
-    //getter
-    int get_id(){
-        return id;
-    }
-    string get_name(){
-    return name;
-    }
-     string get_password(){
-    return password;
+    cout << "Enter client password: ";
+    getline(cin, cpass);
+    while (!Validation::validPassword(cpass)) {
+        cout << "Invalid password! Try again: ";
+        getline(cin, cpass);
     }
 
-    //methods
-    void display(){
-        cout <<"id is :" << id<<endl;
-        cout <<"name is :" <<name<<endl;
-        cout <<"password is :" << password<<endl;
-    }
-    //dest
-     ~Person(){}
-
-};
-
-class Client:public Person{
-    double balance;
-public:
-    //cons
-    Client():Person(){
-        this -> balance=0;
+    cout << "Enter client balance: ";
+    cin >> cbalance;
+    while (!Validation::validBalance(cbalance)) {
+        cout << "Invalid balance! Try again: ";
+        cin >> cbalance;
     }
 
-    Client(int id,string name,string password,double balance):Person(id,name,password){
-        set_balance(balance);
+    Client c1(1, cname, cpass, cbalance);
+    fm.addClient(c1);
+
+    Employee e1(2, "John", "emp123", 5000.0);
+    fm.addEmployee(e1);
+
+    Admin a1(3, "mohamed", "admin123", 10000.0);
+    fm.addAdmin(a1);
+
+    cout << "\nData saved successfully!\n";
+
+    cout << "\n===== Clients in File =====\n";
+    vector<Client> clients = fm.getAllClients();
+    for (Client c : clients) {
+        cout << "ID: " << c.get_id()
+             << " | Name: " << c.get_name()
+             << " | Balance: " << c.get_balance() << endl;
     }
 
-      void set_balance(double balance){
-        if (validation::validbalance(balance))
-           this->balance=balance;
-           else cout << "uncorrect balance/n";
-      }
-    double get_balance(){
-    return balance;
-    }
-    //methods
-    void deposit(double amount){
-        if (amount >0)
-            this->balance+=amount;
-    }
-    void withdram(double amount){
-        if (amount >0&&amount <= balance)
-            this->balance-=amount;
-    }
-    void transefar(double amount, Client&recipient){
-        withdram(amount);
-         recipient.deposit(amount);
-    }
-    void check_balance(){
-        cout << "balance is "<< balance<<endl;
+    cout << "\n===== Employees in File =====\n";
+    vector<Employee> employees = fm.getAllEmployees();
+    for (Employee e : employees) {
+        cout << "ID: " << e.get_id()
+             << " | Name: " << e.get_name()
+             << " | Salary: " << e.getSalary() << endl;
     }
 
-     void display(){
-       Person::display();
-        cout <<"balance is :" << balance<<endl;
+    // --- Retrieve all admins ---
+    cout << "\n===== Admins in File =====\n";
+    vector<Admin> admins = fm.getAllAdmins();
+    for (Admin a : admins) {
+        cout << "ID: " << a.get_id()
+             << " | Name: " << a.get_name()
+             << " | Salary: " << a.getSalary() << endl;
     }
-    //dest
-     ~Client(){}
-};
-
-
-class Employee : public Person
-{
-private:
-	double salary;
-public:
-	Employee() : Person() {
-		salary = 0;
-	}
-	Employee(int id, string name, string password, double salary) : Person(id, name, password) {
-		setSalary(salary);
-	}
-
-	void setSalary(double salary) {
-		if (validation::valdisalary(salary))
-			this->salary = salary;
-		else cout << "Invalid salary\n";
-	}
-
-	double getSalary() {
-		return salary;
-	}
-
-	void display() {
-		Person::display();
-		cout << "Salary : " << salary << endl;
-	}
-};
-
-
-
-class Admin : public Employee {
-public:
-    Admin() : Employee() {}
-
-
-    Admin(int id, string name, string password, double salary)
-        : Employee(id, name, password, salary) {}
-};
-
-
-
-int main()
-{
 
     return 0;
 }

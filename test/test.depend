@@ -1,0 +1,74 @@
+# depslib dependency file v1.0
+1758094378 source:c:\users\hp\desktop\route-final-project\test\src\admin.cpp
+
+1758120236 c:\users\hp\desktop\route-final-project\test\include\admin.h
+	"Employee.h"
+	<iostream>
+
+1758120212 c:\users\hp\desktop\route-final-project\test\include\employee.h
+	"Person.h"
+	<iostream>
+
+1758120172 c:\users\hp\desktop\route-final-project\test\include\person.h
+	<string>
+
+1758094297 source:c:\users\hp\desktop\route-final-project\test\src\client.cpp
+
+1758120195 c:\users\hp\desktop\route-final-project\test\include\client.h
+	"Person.h"
+	<iostream>
+
+1758120263 c:\users\hp\desktop\route-final-project\test\include\validation.h
+	<iostream>
+	<string>
+
+1758094373 source:c:\users\hp\desktop\route-final-project\test\src\employee.cpp
+
+1758094510 source:c:\users\hp\desktop\route-final-project\test\src\person.cpp
+
+1758094779 source:c:\users\hp\desktop\route-final-project\test\src\validation.cpp
+
+1758119518 source:c:\users\hp\desktop\route-final-project\test\main.cpp
+	<iostream>
+	"Client.h"
+	"Employee.h"
+	"Admin.h"
+	"Parser.h"
+	"FileManager.h"
+	"FilesHelper.h"
+
+1758120280 c:\users\hp\desktop\route-final-project\test\include\parser.h
+	<string>
+	<vector>
+	<sstream>
+	"Client.h"
+	"Employee.h"
+	"Admin.h"
+
+1758094919 source:c:\users\hp\desktop\route-final-project\test\src\parser.cpp
+	"Parser.h"
+
+1758103574 source:c:\users\hp\desktop\route-final-project\test\src\datasourceinterface.cpp
+	"DataSourceInterface.h"
+
+1758120296 c:\users\hp\desktop\route-final-project\test\include\datasourceinterface.h
+	"Client.h"
+	"Employee.h"
+	"Admin.h"
+	<vector>
+
+1758120637 source:c:\users\hp\desktop\route-final-project\test\src\filemanager.cpp
+
+1758120637 c:\users\hp\desktop\route-final-project\test\include\filemanager.h
+	<iostream>
+	"FileManager.h"
+	"Validation.h"
+
+1758120637 source:c:\users\hp\desktop\route-final-project\test\src\fileshelper.cpp
+
+1758120489 c:\users\hp\desktop\route-final-project\test\include\fileshelper.h
+	<iostream>
+	<fstream>
+	<string>
+	<vector>
+
