@@ -1,26 +1,66 @@
-#ifndef EMPLOYEE_H
-#define EMPLOYEE_H
-
+#pragma once
 #include "Person.h"
-#include <iostream>
-using namespace std;
-
-class Employee : public Person {
-private:
-    double salary;
-
+#include"Client.h"
+class Employee : public Person
+{
+protected:
+	double salary;
 public:
-    Employee(int i=0, string n="", string p="", double s=0) {
-        id = i; name = n; password = p; salary = s;
-    }
+	Employee() : Person() {
+		salary = 0;
+	}
 
-    double getSalary() const { return salary; }
-    void setSalary(double s) { salary = s; }
+	Employee(int id, string name, string password, double salary) : Person(id, name, password) {
+		setSalary(salary);
+	}
 
-    void display() const {
-        cout << "Employee ID: " << id << "\nName: " << name
-             << "\nSalary: " << salary << "\n";
-    }
+	// getters
+	double getSalary() {
+		return this->salary;
+	}
+
+	//setters
+	void setSalary(double salary) {
+		if (Validation::validateSalary(salary)) {
+			this->salary = salary;
+		}
+	}
+
+	void display() {
+		Person::display();
+		cout << "Salary: " << salary << endl;
+		cout << "\n===============\n" << endl;
+	}
+
+
+	void addClient(Client& client) {
+		allClients.push_back(client);
+	}
+
+	Client* searchClient(int id) {
+
+		for (cIt = allClients.begin(); cIt != allClients.end(); cIt++) {
+			if (cIt->getId() == id) return cIt._Ptr;
+		}
+		return nullptr;
+	}
+
+	void listClient() {
+		for (cIt = allClients.begin(); cIt != allClients.end(); cIt++) {
+			cIt->display();
+		}
+	}
+
+	void editClient(Client* client, string name, string password, double balance) {
+		//Client* client = searchClient(id);
+		client->setName(name);
+		client->setPassword(password);
+		client->setBalance(balance);
+	}
+
 };
 
-#endif
+
+static vector<Employee> allEmployees;
+
+static vector<Employee>::iterator eIt;

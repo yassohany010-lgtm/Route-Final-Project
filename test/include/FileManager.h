@@ -1,70 +1,71 @@
-#ifndef FILEMANAGER_H
-#define FILEMANAGER_H
-
+#pragma once
 #include "DataSourceInterface.h"
 #include "FilesHelper.h"
-#include "Parser.h"
-
-class FileManager : public DataSourceInterface {
-private:
-    string clientsFile = "clients.txt";
-    string employeesFile = "employees.txt";
-    string adminsFile = "admins.txt";
-
+class FileManager : public DataSourceInterface
+{
 public:
-    void addClient(Client c) override {
-        string line = to_string(c.get_id()) + "," + c.get_name() + "," +
-                      c.get_password() + "," + to_string(c.get_balance());
-        FilesHelper::saveLine(clientsFile, line);
-    }
+	static void addClient(Client obj) {
+		FilesHelper::saveClient(obj);
+	}
 
-    void addEmployee(Employee e) override {
-        string line = to_string(e.get_id()) + "," + e.get_name() + "," +
-                      e.get_password() + "," + to_string(e.getSalary());
-        FilesHelper::saveLine(employeesFile, line);
-    }
+	static void addEmployee(Employee obj) {
+		FilesHelper::saveEmployee(obj);
+	}
 
-    void addAdmin(Admin a) override {
-        string line = to_string(a.get_id()) + "," + a.get_name() + "," +
-                      a.get_password() + "," + to_string(a.getSalary());
-        FilesHelper::saveLine(adminsFile, line);
-    }
+	static void addAdmin(Admin obj) {
+		FilesHelper::saveAdmin(obj);
+	}
 
-    vector<Client> getAllClients() override {
-        vector<Client> clients;
-        for (string line : FilesHelper::readFile(clientsFile)) {
-            clients.push_back(Parser::parseToClient(line));
-        }
-        return clients;
-    }
+	static void getAllClients() {
+		FilesHelper::getAllClients();
+	}
 
-    vector<Employee> getAllEmployees() override {
-        vector<Employee> employees;
-        for (string line : FilesHelper::readFile(employeesFile)) {
-            employees.push_back(Parser::parseToEmployee(line));
-        }
-        return employees;
-    }
+	static void getAllEmployees() {
+		FilesHelper::getAllEmployees();
+	}
 
-    vector<Admin> getAllAdmins() override {
-        vector<Admin> admins;
-        for (string line : FilesHelper::readFile(adminsFile)) {
-            admins.push_back(Parser::parseToAdmin(line));
-        }
-        return admins;
-    }
+	static void getAllAdmins() {
+		FilesHelper::getAllAdmins();
+	}
 
-    void removeAllClients() override {
-        FilesHelper::clearFile(clientsFile);
-    }
+	static void removeAllClients() {
+		FilesHelper::clearFile(C_FILE_PATH, CID_FILE_PATH);
+	}
 
-    void removeAllEmployees() override {
-        FilesHelper::clearFile(employeesFile);
-    }
+	static void removeAllEmployees() {
+		FilesHelper::clearFile(E_FILE_PATH, EID_FILE_PATH);
+	}
 
-    void removeAllAdmins() override {
-        FilesHelper::clearFile(adminsFile);
-    }
+	static void removeAllAdmins() {
+		FilesHelper::clearFile(A_FILE_PATH, EID_FILE_PATH);
+	}
+
+
+	static void getAllData() {
+		getAllClients();
+		getAllEmployees();
+		getAllAdmins();
+	}
+
+	static void updateClients() {
+		removeAllClients();
+
+		for (cIt = allClients.begin(); cIt != allClients.end(); cIt++) {
+			addClient(*cIt);
+		}
+	}
+
+	static void updateEmployees() {
+		removeAllEmployees();
+		for (eIt = allEmployees.begin(); eIt != allEmployees.end(); eIt++) {
+			addEmployee(*eIt);
+		}
+	}
+	static void updateAdmins() {
+		removeAllAdmins();
+		for (aIt = allAdmins.begin(); aIt != allAdmins.end(); aIt++) {
+			addAdmin(*aIt);
+		}
+	}
+
 };
-
-#endif

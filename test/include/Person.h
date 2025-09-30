@@ -1,23 +1,61 @@
-#ifndef PERSON_H
-#define PERSON_H
+#pragma once
+#include "Validation.h"
 
-#include <string>
-using namespace std;
-
-class Person {
+class Person
+{
 protected:
-    int id;
-    string name;
-    string password;
+	int id;
+	string name;
+	string password;
 
 public:
-    int get_id() const { return id; }
-    string get_name() const { return name; }
-    string get_password() const { return password; }
+	//Constructors
+	Person() {
+		id = 0;
+	}
 
-    void set_id(int i) { id = i; }
-    void set_name(const string& n) { name = n; }
-    void set_password(const string& p) { password = p; }
+	Person(int id, string name, string password) {
+		setId(id);
+		setName(name);
+		setPassword(password);
+	}
+
+	// getters
+	int getId() {
+		return id;
+	}
+
+	string getName() {
+		return name;
+	}
+
+	string getPassword() {
+		return password;
+	}
+
+	//setters
+	void setId(int id) {
+		this->id = id;
+	}
+
+	void setName(string name) {
+		 //validate on name first
+		if (Validation::validateName(name)) {
+			this->name = name;
+		}
+
+	}
+
+	void setPassword(string password) {
+		if (Validation::validatePass(password)) {
+			this->password = password;
+		}
+	}
+
+	void display() {
+		cout << "id: " << id << endl;
+		cout << "name: " << name << endl;
+		cout << "password: " << password << endl;
+	}
+
 };
-
-#endif

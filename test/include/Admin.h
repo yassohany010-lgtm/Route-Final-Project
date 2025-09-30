@@ -1,20 +1,43 @@
-#ifndef ADMIN_H
-#define ADMIN_H
 
+
+#pragma once
 #include "Employee.h"
-#include <iostream>
-using namespace std;
-
-class Admin : public Employee {
+class Admin : public Employee
+{
 public:
-    Admin(int i=0, string n="", string p="", double s=0)
-        : Employee(i, n, p, s) {}
+	Admin() {
 
-    void display() const {
-        cout << "Admin ID: " << get_id()
-             << "\nName: " << get_name()
-             << "\nSalary: " << getSalary() << "\n";
-    }
+	}
+	//
+	Admin(int id, string name, string pass, double balance) :
+		Employee(id, name, pass, balance) {
+
+	}
+
+	void AddEmploye(Employee& emp) {
+		allEmployees.push_back(emp);
+	}
+
+	Employee* searchEmployee(int id) {
+		for (eIt = allEmployees.begin(); eIt != allEmployees.end(); eIt++) {
+			if (eIt->getId() == id) return eIt._Ptr;
+		}
+		return nullptr;
+	}
+
+	void editEmployee(Employee* emp, string name, string password, double salary) {
+		emp->setName(name);
+		emp->setPassword(password);
+		emp->setSalary(salary);
+	}
+
+	void listEmployee() {
+		for (eIt = allEmployees.begin(); eIt != allEmployees.end(); eIt++) {
+			eIt->display();
+		}
+	}
+
 };
 
-#endif
+static vector<Admin> allAdmins;
+static vector<Admin>::iterator aIt;

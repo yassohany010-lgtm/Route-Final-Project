@@ -1,26 +1,78 @@
-#ifndef CLIENT_H
-#define CLIENT_H
-
+#pragma once
 #include "Person.h"
-#include <iostream>
-using namespace std;
-
-class Client : public Person {
+#include<vector>
+#include<iterator>
+class Client: public Person
+{
 private:
-    double balance;
-
+	double balance;
 public:
-    Client(int i=0, string n="", string p="", double b=0) {
-        id = i; name = n; password = p; balance = b;
-    }
+	Client() : Person(){
+		balance = 0;
+	}
+	Client(int id, string name, string password, double balance) : Person(id, name, password) {
+		setBalance(balance);
+	}
 
-    double get_balance() const { return balance; }
-    void set_balance(double b) { balance = b; }
+	double getBalance() {
+		return balance;
+	}
 
-    void display() const {
-        cout << "Client ID: " << id << "\nName: " << name
-             << "\nBalance: " << balance << "\n";
-    }
+	void setBalance(double balance) {
+		if (Validation::validateBalance(balance)) {
+			this->balance = balance;
+		}
+	}
+
+	void deposit(double amount) {
+		if (amount > 0) {
+			balance += amount;
+			cout << "Success deposit" << endl;
+		}
+		else {
+			cout << "minmum amount is 1EGY" << endl;
+		}
+	}
+	void withdraw(double amount) {
+		if (amount <= balance) {
+			balance -= amount;
+			cout << "Success withdraw" << endl;
+		}
+		else {
+			cout << "Amount exceeded balance" << endl;
+		}
+	}
+	void transferTo(double amount, Client& recipient) {
+		// withdrow
+		if (amount <= balance) {
+			balance -= amount;
+			//deposit for  recipient
+			if (amount > 0) {
+				recipient.balance += amount;
+				cout << "Success transfer" << endl;
+			}
+			else {
+				cout << "Minmum amount is 1EGY" << endl;
+			}
+		}
+		else {
+			cout << "Amount exceeded balance" << endl;
+		}
+
+
+	}
+
+	void checkBalance() {
+		cout << "Balance: " << getBalance() << endl;
+	}
+
+	void display() {
+		Person::display();
+		cout << "Balance: " << balance << endl;
+		cout << "\n===============\n" << endl;
+	}
 };
 
-#endif
+static vector<Client> allClients;
+
+static vector<Client>::iterator cIt;
